@@ -10,7 +10,8 @@ st.caption("산불 대응 담당자가 위험 지역을 파악하고 진화 차�
 
 b = get_bundle()
 c1, c2, c3, c4 = st.columns(4)
-c1.metric("분석 기간", "2024-01-01 ~ 2025-12-31")
+c1.metric("분석 기간", "2024.01 ~ 현재",
+          help=f"2024-01-01부터 오늘까지. 산불 기록은 {b['fire_max_date']:%Y-%m-%d}까지 보유(모델 학습·평가는 2024~2025년 자료).")
 c2.metric("산불 기록", f"{len(b['fires'])}건")
 c3.metric("분석 지역", f"{len(b['region_map'])}개 시군")
 c4.metric("기상 관측소", f"{b['region_map']['관측소'].nunique()}곳")
