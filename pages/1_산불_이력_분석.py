@@ -65,6 +65,7 @@ nav_c.caption(f"<div style='text-align:center'>{y_start:%Y-%m-%d} ~ {y_end:%Y-%m
 
 st.subheader(f"{year}년 월별 발생 추이")
 monthly = core.monthly_counts(sel_y, y_start, y_end)
+monthly["월"] = monthly["월"].astype(str).str[-2:]
 st.bar_chart(monthly, x="월", y="발생건수")
 with st.expander("월별 표 보기"):
     st.dataframe(monthly, hide_index=True, width="stretch")
@@ -74,6 +75,7 @@ if sel_y.empty:
     st.info(f"{year}년에는 선택한 조건의 산불 기록이 없습니다.")
 else:
     cause_tbl = core.monthly_cause_table(sel_y, y_start, y_end)
+    cause_tbl["월"] = cause_tbl["월"].astype(str).str[-2:]
     st.bar_chart(cause_tbl, x="월", y=[c for c in cause_tbl.columns if c != "월"], stack=True)
     unk = core.unknown_cause_summary(sel_y)
     st.write(f"**원인 미상 {unk['원인 미상']}건 + 기타 {unk['기타']}건 = {unk['합계']}건 ({unk['합계_비율']:.1%})** — "
